@@ -1,6 +1,9 @@
 # Dashboard Jogos Steam
+
 **Membros:** Alex Sandro, Northon V.
+
 **Dataset:** jogos-steam.csv + https://steamspy.com/year/
+
 **App publicado:** https://...streamlit.app
 ## Funcionalidades
 - [x] Leitura do CSV
