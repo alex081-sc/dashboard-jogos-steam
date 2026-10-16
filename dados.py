@@ -9,6 +9,7 @@ CAMINHO_LIVROS = PASTA / "jogos-steam.csv"
 
 def ler_csv():
     """Le o csv de jogos e devolve uma lista de dicionarios.
+    {"jogo": '', "lancamento": '', "preco": '', "donos": '', "desenvolvedora": '', "publicadora":'', "tempo_medio_min": '', "metascore":''}
     """
     jogos = []
     try:
@@ -23,6 +24,8 @@ def ler_csv():
 
     return jogos
 
+
+
 if __name__ == "__main__":
     jogos = ler_csv()
-    print()
+    
