@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 import dados
 
@@ -25,10 +26,22 @@ def main():
     st.title("🎮 Dashboard de Jogos da Steam")
 
     jogos = dados.ler_csv()
-    tabela = montar_tabela(jogos)
+    dados_tabela = montar_tabela(jogos)
 
-    st.dataframe(tabela)
-
+    tabela = pd.DataFrame(dados_tabela)
+    st.data_editor(
+    tabela,
+    column_config={
+        f"Metascore": st.column_config.ProgressColumn(
+            "Avaliação metascore",
+            help="Avaliação metascore",
+            format="%f",
+            min_value=0,
+            max_value=100,
+        ),
+    },
+    hide_index=True,
+)
 
 if __name__ == "__main__":
     main()
