@@ -15,7 +15,11 @@ Função de recomende um jogo. Vai ter um botão escrito "Me recomende um jogo",
 ## Como rodar
 
 python -m venv .venv
+
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 .venv\Scripts\Activate.ps1
+
 pip install -r requirements.txt
+
 streamlit run app.py
