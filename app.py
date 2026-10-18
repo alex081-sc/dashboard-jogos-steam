@@ -54,7 +54,7 @@ def main():
 
     col_busca, col_desenv = st.columns(2)
 
-    busca = col_busca.text_input(label="Nome do Jogo", type="search")
+    busca = col_busca.text_input(label="Nome do Jogo", type="search", live=True)
     opcao = col_desenv.selectbox("Filtrar por desenvolvedoras",["Todas"] + listar_desenvolvedoras(jogos))
 
     jogos_filtrados = filtrar_por_desenvolvedora(opcao, jogos)
@@ -62,22 +62,25 @@ def main():
 
     dados_tabela = montar_tabela(jogo_buscado)
 
-    tabela = pd.DataFrame(dados_tabela)
+    if len(dados_tabela) == 0:
+        st.warning("Nenhum jogo encontrado!")
+    else:
+        tabela = pd.DataFrame(dados_tabela)
 
-    st.data_editor(
-        tabela,
-        column_config={
-        f"Metascore": st.column_config.ProgressColumn(
-                "Avaliação metascore",
-                help="Avaliação metascore",
-                format="%f",
-                min_value=0,
-                max_value=100,
-                color="auto"
-            ),
-        },
-    hide_index=True,
-    )
+        st.data_editor(
+            tabela,
+            column_config={
+            f"Metascore": st.column_config.ProgressColumn(
+                    "Avaliação metascore",
+                    help="Avaliação metascore",
+                    format="%f",
+                    min_value=0,
+                    max_value=100,
+                    color="auto"
+                ),
+            },
+        hide_index=True,
+        )
 
 if __name__ == "__main__":
     main()
