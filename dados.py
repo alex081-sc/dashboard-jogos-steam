@@ -25,7 +25,6 @@ def ler_csv():
     return jogos
 
 def converte_preco(preco):
-    preco = preco.replace(".", ".")
     if preco == "NA":
         return 0
     return float(preco)
