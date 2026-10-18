@@ -27,21 +27,43 @@ def listar_desenvolvedoras(jogos):
             desenvolvedoras.append(jogo["desenvolvedora"])
     return desenvolvedoras
 
+def filtrar_por_desenvolvedora(opcao, jogos):
+    jogos_categoria = []
+    if opcao == "Todas":
+        return jogos
+    for jogo in jogos:
+        if opcao in jogo["desenvolvedora"]:
+            jogos_categoria.append(jogo)
+    return jogos_categoria
+
+def buscar_jogos(busca, jogos):
+    jogos_busc = []
+    busca_padrao = busca.lower().strip()
+    for jogo in jogos:
+        jogo_padrao = jogo["jogo"].lower().strip()
+        if busca_padrao in jogo_padrao:
+            jogos_busc.append(jogo)
+    return jogos_busc
 
 def main():
     st.set_page_config(page_title="Dashboard de Jogos da Steam", page_icon="🎮", layout="wide")
     st.title("🎮 Dashboard de Jogos da Steam")
 
     jogos = dados.carrega_jogos()
-    dados_tabela = montar_tabela(jogos)
+    
 
     col_busca, col_desenv = st.columns(2)
 
     busca = col_busca.text_input(label="Nome do Jogo", type="search")
-    opcao = col_desenv.selectbox("Filtrar por desenvolvedoras",listar_desenvolvedoras(jogos))
+    opcao = col_desenv.selectbox("Filtrar por desenvolvedoras",["Todas"] + listar_desenvolvedoras(jogos))
 
+    jogos_filtrados = filtrar_por_desenvolvedora(opcao, jogos)
+    jogo_buscado = buscar_jogos(busca, jogos_filtrados)
+
+    dados_tabela = montar_tabela(jogo_buscado)
 
     tabela = pd.DataFrame(dados_tabela)
+
     st.data_editor(
         tabela,
         column_config={
