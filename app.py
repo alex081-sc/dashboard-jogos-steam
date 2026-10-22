@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import random as rd
 
 import dados
 
@@ -45,17 +46,20 @@ def buscar_jogos(busca, jogos):
             jogos_busc.append(jogo)
     return jogos_busc
 
+def sortear_jogo(jogos): # funcao extra
+    return rd.choice(jogos)
+    
+
 def main():
     st.set_page_config(page_title="Dashboard de Jogos da Steam", page_icon="🎮", layout="wide")
     st.title("🎮 Dashboard de Jogos da Steam")
 
     jogos = dados.carrega_jogos()
     
-
     col_busca, col_desenv = st.columns(2)
 
     busca = col_busca.text_input(label="Nome do Jogo", type="search", live=True)
-    opcao = col_desenv.selectbox("Filtrar por desenvolvedoras",["Todas"] + listar_desenvolvedoras(jogos))
+    opcao = col_desenv.selectbox("Filtrar por desenvolvedoras",["Todas"] + listar_desenvolvedoras(jogos))    
 
     jogos_filtrados = filtrar_por_desenvolvedora(opcao, jogos)
     jogo_buscado = buscar_jogos(busca, jogos_filtrados)
@@ -81,6 +85,19 @@ def main():
             },
         hide_index=True,
         )
+    
+    if st.button("❓ Recomendar um jogo aleatório"):
+            jogo_sorteado = sortear_jogo(jogos)
+           
+            st.subheader(f"🎮 Jogo recomedado: {jogo_sorteado['jogo']}")
+
+            col1, col2, col3, col4 = st.columns(4)
+            col1.metric("Preço", f"${jogo_sorteado['preco']}")
+            col2.metric("Desenvolvedora", jogo_sorteado['desenvolvedora'])
+            col3.metric("Metascore", f"{jogo_sorteado['metascore']}/100")
+            col4.metric("Lançamento", jogo_sorteado['lancamento'])
+            
 
 if __name__ == "__main__":
     main()
+    
