@@ -51,10 +51,30 @@ def sortear_jogo(jogos): # funcao extra
     
 
 def main():
+    # estilização do fundo da dashboard
+    st.markdown(
+    """
+    <style>
+    .stAppViewContainer {
+        
+        background-image: linear-gradient(
+            to bottom, 
+            rgba(0, 0, 0, 0.6), 
+            rgba(20, 30, 48, 10)
+        ), 
+        url("https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/09/steam.jpg");
+        
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+    ) 
+
     st.set_page_config(page_title="Dashboard de Jogos da Steam", page_icon="🎮", layout="wide")
     st.title("🎮 Dashboard de Jogos da Steam")
-
-    
 
     jogos = dados.carrega_jogos()
 
@@ -105,15 +125,17 @@ def main():
     
     if st.button("❓ Recomendar um jogo aleatório"):
             jogo_sorteado = sortear_jogo(jogos)
-           
+
+            
             st.subheader(f"🎮 Jogo recomedado: {jogo_sorteado['jogo']}")
+            
 
             col1, col2, col3, col4 = st.columns(4)
             col1.metric("Preço", f"${jogo_sorteado['preco']}")
             col2.metric("Desenvolvedora", jogo_sorteado['desenvolvedora'])
             col3.metric("Metascore", f"{jogo_sorteado['metascore']}/100")
             col4.metric("Lançamento", jogo_sorteado['lancamento'])
-            
+            st.image("https://static.wikitide.net/nicosnextbotswiki/7/74/Nextbot_steamhappy.png", width=50)
 
 if __name__ == "__main__":
     main()
