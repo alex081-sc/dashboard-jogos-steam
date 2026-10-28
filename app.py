@@ -54,7 +54,24 @@ def main():
     st.set_page_config(page_title="Dashboard de Jogos da Steam", page_icon="🎮", layout="wide")
     st.title("🎮 Dashboard de Jogos da Steam")
 
+    
+
     jogos = dados.carrega_jogos()
+
+    col1, col2, col3 = st.columns(3)
+    
+    jogo_mais_longo, tempo_jogo = dados.jogo_mais_longo(jogos)
+    nota_jogo, melhor_jogo = dados.melhor_jogo(jogos)
+    maior_empresa, qntd_jogos_empresa = dados.empresa_com_mais_jogos(jogos)
+    
+    col1.metric("Publicadora/Empresa com mais jogos lançados", maior_empresa)
+    col1.caption(f"Quantidade de jogos: {qntd_jogos_empresa}")
+    
+    col2.metric("Jogo melhor avaliado", melhor_jogo)
+    col2.caption(f"Nota: {nota_jogo} no Metascore")
+
+    col3.metric("Jogo com maior tempo médio", jogo_mais_longo)
+    col3.caption(f"Tempo médio: {tempo_jogo} Minutos")
     
     col_busca, col_desenv = st.columns(2)
 
